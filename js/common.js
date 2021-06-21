@@ -41,7 +41,7 @@ function maskPhone(selector, masked = '+7 (___) ___-__-__') {
 
 'user strict';
 
-const anchors = document.querySelectorAll('a[href*="#"]')
+const anchors = document.querySelectorAll('.scrollTo[href*="#"]')
 
 for (let anchor of anchors) {
   anchor.addEventListener('click', function (e) {
@@ -60,6 +60,8 @@ const button_active_popup = document.querySelectorAll('._js_popup_phone'),
 	  popup_phone = document.querySelector('#popup__phone'),
 	  popup_close = document.querySelector('.popup__close');
 
+
+
 button_active_popup.forEach(e => {
 	e.addEventListener('click', (event) => {
 		event.preventDefault();
@@ -70,6 +72,12 @@ button_active_popup.forEach(e => {
 
 popup_close.addEventListener('click', () => {
 	popup_phone.classList.remove('active');
+
+	let popup_left_wrap = document.querySelector('.popup__wrap-left');
+
+	if(popup_left_wrap) {
+		popup_left_wrap.remove();
+	}
 });
 
 if(popup_phone) {
@@ -81,6 +89,12 @@ if(popup_phone) {
 		// console.log(its_popup);
 		if(!its_popup && !its_btn_popup && popup_is_active) {
 			popup_phone.classList.remove('active');
+
+			let popup_left_wrap = document.querySelector('.popup__wrap-left');
+
+			if(popup_left_wrap) {
+				popup_left_wrap.remove();
+			}
 		}
 	});
 }
@@ -121,3 +135,43 @@ var swiper = new Swiper("#slider_shop", {
 		},
 	},
 });
+
+const popup_wrap = document.querySelector('.popup__wrap'),
+	  button_product = document.querySelectorAll('.__js_product_add');
+button_product.forEach(e=>{
+	e.addEventListener('click', (event) => {
+
+		event.preventDefault();
+
+		let item = event.target.parentNode.parentNode;
+
+		let productTitle = item.querySelector('.item__title b').innerHTML;
+		let productDescr = item.querySelector('.item__title p').innerHTML;
+		let productImage = item.querySelector('.item__image img').getAttribute('src');
+		let productPrice = item.querySelector('.item__image b').innerHTML;
+
+		let htmlItemProduct = `<div class="popup__wrap-left"><b class="title">Выбранный товар:</b>
+				<div class="item">
+				<div class="item__image"><img src="${productImage}" alt="image"></div>
+				<div class="item__text"><b>${productTitle}</b>
+					<p>${productDescr}</p>
+					<div class="price">${productPrice}</div>
+					<div class="count">1 литр</div>
+				</div>
+				</div>
+			</div>`;
+
+		if(popup_wrap.querySelector('.popup__wrap-left')) {
+			document.querySelector('.popup__wrap-left').remove();
+			popup_wrap.insertAdjacentHTML( 'afterbegin', htmlItemProduct );
+		} else {
+			popup_wrap.insertAdjacentHTML( 'afterbegin', htmlItemProduct );
+		}
+
+		
+	});
+});
+
+
+
+
