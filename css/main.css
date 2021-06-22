@@ -1068,12 +1068,6 @@ body {
   height: auto;
 }
 
-@media (max-width: 540px) {
-  .shop .swiper-container .swiper-slide:not(:nth-child(-n+10)) {
-    display: none;
-  }
-}
-
 .shop .swiper-container .swiper-slide .item {
   height: 100%;
 }
